@@ -36,20 +36,23 @@ The analyses examine ... [maybe one or two sentences from my abstract]
 
 ---
 
-## Data
+## How to Run the Analysis
 
 The analyses are based on **TIMSS 2023** data. The scripts numbered 01 to 03 contain all code related to data wrangling, starting with the raw TIMSS 2023 data files including all achievement items and participants in grades 4 and 8, and ending with the fully ready-to-analyse data files for grade 8 science. 
 
-> The next section will walk you through the steps I took in data wrangling.
-> If you wish to skip the data wrangling, go straight to "How to Run the Analysis" below. The fully cleaned ready-to-analyse data file is in the "Data" folder, too.
-
----
-
-## How to Run the Analysis
+- The next section will walk you through the steps I took in data wrangling and analysis.
+- Because the raw TIMSS 2023 achievement data files are too large to upload them to GitHub, the first three steps are for viewing only. If you wish to reporduce these steps, kindly download the raw achievement files for grades 4 and 8 via the IEA IDB Analyzer (Ver 5.0.50, IEA, 2025).
+- To enable skipping the data wrangling, I uploaded the cleaned and ready-to-analyse grade 8 science subsets in the "Data" folder.
+- To start analysing, skip from Step 0 straight to Step 4.
 
 The scripts are designed to be executed **in the following order**:
 
-> Skip to step 4 if you wish to skip the data wrangling and start with the analysis right away.
+---
+
+### Step 0 — Run `00_Objects.R` ...
+
+- **Purpose:** The purpose of this script is to determine the choice of subset of the TIMSS 2023 data to be used in the present study.
+- This script co
 
 ---
 
@@ -143,4 +146,5 @@ If you use this code, please cite the thesis as:
 ## References
 
 - Fishbein, B., Taneva, M., & Kowolik, K. (2025). TIMSS 2023 User Guide for the International Database. Boston College, TIMSS & PIRLS International Study Center. https://timss2023.org/data
+- IEA. (2025). IEA IDB Analyzer (Version 5.0.50) [Computer software]. https://www.iea.nl/data-tools/tools#section-308
 
