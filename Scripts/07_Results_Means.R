@@ -1,4 +1,3 @@
-
 #' ---
 #' title: "Results - Country Means"
 #' author: "Ylva Matejko"
@@ -57,15 +56,9 @@ MRanking <- readRDS(file = paste0(getwd(), "/YZM-Thesis/Output/MRanking.rds"))
 
 #'------------------------------------------------------------------------------
 #'
-#' ### Describe Mean Rank Differences
+#' ## Describe Mean Rank Differences
 
-#' Ranking Correlations
-
-cor.test(MRanking$MRank1, MRanking$MRank2, method = 'kendall')
-cor.test(MRanking$MRank1, MRanking$MRank3, method = 'kendall')
-cor.test(MRanking$MRank3, MRanking$MRank2, method = 'kendall')
-
-#' Mean Absolute Rank Differences
+#' ### Mean Absolute Rank Differences
 
 df_diff_M <- merge(omissions, MRanking, by = "ISO")
 df_diff_M$diff12 <- (df_diff_M$MRank2-df_diff_M$MRank1) 
@@ -153,7 +146,7 @@ M_diff_by_io12 <- ggplot(data = df_diff_M,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "Item Omission Rate (%)", 
-       y = "Difference in Mean Ranks") +
+       y = "Δ Rank (Model 2 - Model 1)") +
   scale_x_continuous(breaks = seq(0, 12, by = 2)) +
   scale_y_continuous(breaks = seq(-3, 3, by = 1),
                      limits = c(-3, 3)) +
@@ -161,7 +154,7 @@ M_diff_by_io12 <- ggplot(data = df_diff_M,
         panel.grid.major.x = element_line(color = "grey80"),
         panel.grid.major.y = element_line(color = "grey80")) +
   style +
-  ggtitle("Difference between Models 1 and 2") +
+  ggtitle("Achievement Ranks in Models 1 and 2") +
   theme(plot.title = element_text(size = 12, family = "serif")) 
 
 M_diff_by_io13 <- ggplot(data = df_diff_M, 
@@ -170,7 +163,7 @@ M_diff_by_io13 <- ggplot(data = df_diff_M,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "Item Omission Rate (%)", 
-       y = "Difference in Mean Ranks") +
+       y = "Δ Rank (Model 3 - Model 1)") +
   scale_x_continuous(breaks = seq(0, 12, by = 2)) +
   scale_y_continuous(breaks = seq(-3, 3, by = 1),
                      limits = c(-3, 3)) +
@@ -178,7 +171,7 @@ M_diff_by_io13 <- ggplot(data = df_diff_M,
         panel.grid.major.x = element_line(color = "grey80"),
         panel.grid.major.y = element_line(color = "grey80")) +
   style +
-  ggtitle("Difference between Models 1 and 3") +
+  ggtitle("Achievement Ranks in Models 1 and 3") +
   theme(plot.title = element_text(size = 12, family = "serif")) 
 
 M_diff_by_io23 <- ggplot(data = df_diff_M, 
@@ -187,7 +180,7 @@ M_diff_by_io23 <- ggplot(data = df_diff_M,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "Item Omission Rate (%)", 
-       y = "Difference in Mean Ranks") +
+       y = "Δ Rank (Model 3 - Model 2)") +
   scale_x_continuous(breaks = seq(0, 12, by = 2)) +
   scale_y_continuous(breaks = seq(-3, 3, by = 1),
                      limits = c(-3, 3)) +
@@ -195,20 +188,17 @@ M_diff_by_io23 <- ggplot(data = df_diff_M,
         panel.grid.major.x = element_line(color = "grey80"),
         panel.grid.major.y = element_line(color = "grey80")) +
   style +
-  ggtitle("Difference between Models 2 and 3") +
+  ggtitle("Achievement Ranks in Models 2 and 3") +
   theme(plot.title = element_text(size = 12, family = "serif")) 
 
 # Arrange them for the report
 
-M_diff_by_io12 <- M_diff_by_io12 + labs(x = "", y = "")
-M_diff_by_io13 <- M_diff_by_io13 + labs(x = "", y = "")
-M_diff_by_io23 <- M_diff_by_io23 + labs(x = "", y = "")
+M_diff_by_io12 <- M_diff_by_io12 + labs(x = "", y = "Δ Rank (Model 2 - Model 1)")
+M_diff_by_io13 <- M_diff_by_io13 + labs(x = "", y = "Δ Rank (Model 3 - Model 1)")
+M_diff_by_io23 <- M_diff_by_io23 + labs(x = "", y = "Δ Rank (Model 3 - Model 2)")
 
 M_diff_by_io <- grid.arrange(M_diff_by_io12, M_diff_by_io13, M_diff_by_io23, 
                              ncol = 3,
-                             left = textGrob("Difference in Mean Ranks", rot = 90,
-                                             gp = gpar(fontsize = 12, fontfamily = "serif"),
-                                             vjust = 2, hjust = 0.5),
                              bottom = textGrob("Item Omission Rate (%)",
                                                gp = gpar(fontsize = 12, fontfamily = "serif"),
                                                vjust = -1, hjust = 0))
