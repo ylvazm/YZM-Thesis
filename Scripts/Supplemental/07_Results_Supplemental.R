@@ -1,4 +1,3 @@
-
 #' ---
 #' title: "Results - Supplementary Exlorations"
 #' author: "Ylva Matejko"
@@ -17,6 +16,22 @@ library(ggrepel) # for non-overlapping ISO labels
 style <- readRDS(file = paste0(getwd(), "/YZM-Thesis/Objects/style.rds"))
 palette <- c("#F8766D","#00BA38","#619CFF")
 
+#'------------------------------------------------------------------------------
+#'
+#' ### Kendall's Tau Rank Correlations between Rankings
+
+MRanking <- readRDS(file = paste0(getwd(), "/YZM-Thesis/Output/MRanking.rds"))
+
+cor.test(MRanking$MRank1, MRanking$MRank2, method = 'kendall')
+cor.test(MRanking$MRank1, MRanking$MRank3, method = 'kendall')
+cor.test(MRanking$MRank3, MRanking$MRank2, method = 'kendall')
+
+VRanking <- readRDS(file = paste0(getwd(), "/YZM-Thesis/Output/VRanking.rds"))
+
+cor.test(VRanking$VRank1, VRanking$VRank2, method = 'kendall')
+cor.test(VRanking$VRank1, VRanking$VRank3, method = 'kendall')
+cor.test(VRanking$VRank3, VRanking$VRank2, method = 'kendall')
+
 
 #'------------------------------------------------------------------------------
 #'
@@ -32,7 +47,7 @@ M_diff_by_mean12 <- ggplot(data = df_diff_M,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "Mean Rank in Model 1", 
-       y = "Difference in Mean Ranks") +
+       y = "Δ Rank (Model 2 - Model 1)") +
   scale_x_continuous(breaks = seq(0, 43, by = 5)) +
   scale_y_continuous(breaks = seq(-3, 3, by = 1),
                      limits = c(-3, 3)) +
@@ -40,7 +55,7 @@ M_diff_by_mean12 <- ggplot(data = df_diff_M,
         panel.grid.major.x = element_line(color = "grey80"),
         panel.grid.major.y = element_line(color = "grey80")) +
   style +
-  ggtitle("Difference between Model 1 and 2") +
+  ggtitle("Achievement Ranks in Models 1 and 2") +
   theme(plot.title = element_text(size = 12, family = "serif")) 
 
 M_diff_by_mean13 <- ggplot(data = df_diff_M, 
@@ -49,7 +64,7 @@ M_diff_by_mean13 <- ggplot(data = df_diff_M,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "Mean Rank in Model 1", 
-       y = "Difference in Mean Ranks") +
+       y = "Δ Rank (Model 3 - Model 1)") +
   scale_x_continuous(breaks = seq(0, 43, by = 5)) +
   scale_y_continuous(breaks = seq(-3, 3, by = 1),
                      limits = c(-3, 3)) +
@@ -57,7 +72,7 @@ M_diff_by_mean13 <- ggplot(data = df_diff_M,
         panel.grid.major.x = element_line(color = "grey80"),
         panel.grid.major.y = element_line(color = "grey80")) +
   style +
-  ggtitle("Difference between Model 1 and 3") +
+  ggtitle("Achievement Ranks in Models 1 and 2") +
   theme(plot.title = element_text(size = 12, family = "serif")) 
 
 M_diff_by_mean23 <- ggplot(data = df_diff_M, 
@@ -66,7 +81,7 @@ M_diff_by_mean23 <- ggplot(data = df_diff_M,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "Mean Rank in Model 1", 
-       y = "Difference in Mean Ranks") +
+       y = "Δ Rank (Model 3 - Model 2)") +
   scale_x_continuous(breaks = seq(0, 43, by = 5)) +
   scale_y_continuous(breaks = seq(-3, 3, by = 1),
                      limits = c(-3, 3)) +
@@ -74,18 +89,15 @@ M_diff_by_mean23 <- ggplot(data = df_diff_M,
         panel.grid.major.x = element_line(color = "grey80"),
         panel.grid.major.y = element_line(color = "grey80")) +
   style +
-  ggtitle("Difference between Model 2 and 3") +
+  ggtitle("Achievement Ranks in Models 1 and 2") +
   theme(plot.title = element_text(size = 12, family = "serif")) 
 
-M_diff_by_mean12 <- M_diff_by_mean12 + labs(x = "", y = "")
-M_diff_by_mean13 <- M_diff_by_mean13 + labs(x = "", y = "")
-M_diff_by_mean23 <- M_diff_by_mean23 + labs(x = "", y = "")
+M_diff_by_mean12 <- M_diff_by_mean12 + labs(x = "", y = "Δ Rank (Model 2 - Model 1)")
+M_diff_by_mean13 <- M_diff_by_mean13 + labs(x = "", y = "Δ Rank (Model 3 - Model 1)")
+M_diff_by_mean23 <- M_diff_by_mean23 + labs(x = "", y = "Δ Rank (Model 3 - Model 2)")
 
 M_diff_by_mean <- grid.arrange(M_diff_by_mean12, M_diff_by_mean13, M_diff_by_mean23, 
                                ncol = 3,
-                               left = textGrob("Difference in Mean Ranks", rot = 90,
-                                               gp = gpar(fontsize = 12, fontfamily = "serif"),
-                                               vjust = 2, hjust = 0.5),
                                bottom = textGrob("Mean Rank in Model 1",
                                                  gp = gpar(fontsize = 12, fontfamily = "serif"),
                                                  vjust = -1, hjust = 0))
@@ -107,7 +119,7 @@ V_diff_by_mean12 <- ggplot(data = df_diff_V,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "Country Variance Rank in Model 1", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 2 - Model 1)") +
   scale_x_continuous(breaks = seq(0, 43, by = 5)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
                      limits = c(-4, 4)) +
@@ -124,7 +136,7 @@ V_diff_by_mean13 <- ggplot(data = df_diff_V,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "Country Variance Rank in Model 1", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 3 - Model 1)") +
   scale_x_continuous(breaks = seq(0, 43, by = 5)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
                      limits = c(-4, 4)) +
@@ -141,7 +153,7 @@ V_diff_by_mean23 <- ggplot(data = df_diff_V,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "Country Variance Rank in Model 1", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 3 - Model 2)") +
   scale_x_continuous(breaks = seq(0, 43, by = 5)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
                      limits = c(-4, 4)) +
@@ -152,15 +164,12 @@ V_diff_by_mean23 <- ggplot(data = df_diff_V,
   ggtitle("Difference between Models 2 and 3") +
   theme(plot.title = element_text(size = 12, family = "serif"))
 
-V_diff_by_mean12 <- V_diff_by_mean12 + labs(x = "", y = "")
-V_diff_by_mean13 <- V_diff_by_mean13 + labs(x = "", y = "")
-V_diff_by_mean23 <- V_diff_by_mean23 + labs(x = "", y = "")
+V_diff_by_mean12 <- V_diff_by_mean12 + labs(x = "", y = "Δ Rank (Model 2 - Model 1)")
+V_diff_by_mean13 <- V_diff_by_mean13 + labs(x = "", y = "Δ Rank (Model 3 - Model 1)")
+V_diff_by_mean23 <- V_diff_by_mean23 + labs(x = "", y = "Δ Rank (Model 3 - Model 2)")
 
 V_diff_by_mean <- grid.arrange(V_diff_by_mean12, V_diff_by_mean13, V_diff_by_mean23, 
                                ncol = 3,
-                               left = textGrob("Difference in Variance Ranks", rot = 90,
-                                               gp = gpar(fontsize = 12, fontfamily = "serif"),
-                                               vjust = 2, hjust = 0.5),
                                bottom = textGrob("Variance Rank in Model 1",
                                                  gp = gpar(fontsize = 12, fontfamily = "serif"),
                                                  vjust = -1, hjust = 0))
@@ -206,7 +215,7 @@ V_diff_by_io_itemvar12 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "Item-Level SD of Omission Rates", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 2 - Model 1)") +
   scale_x_continuous(breaks = seq(0, 15, by = 3)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
                      limits = c(-4, 4)) +
@@ -223,7 +232,7 @@ V_diff_by_io_itemvar13 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "Item-Level SD of Omission Rates", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 3 - Model 1)") +
   scale_x_continuous(breaks = seq(0, 15, by = 3)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
                      limits = c(-4, 4)) +
@@ -240,7 +249,7 @@ V_diff_by_io_itemvar23 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "Item-Level SD of Omission Rates", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 3 - Model 2)") +
   scale_x_continuous(breaks = seq(0, 15, by = 3)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
                      limits = c(-4, 4)) +
@@ -253,15 +262,12 @@ V_diff_by_io_itemvar23 <- ggplot(data = omission_variance,
 
 # put them next to each other
 
-V_diff_by_io_itemvar12 <- V_diff_by_io_itemvar12 + labs(x = "", y = "")
-V_diff_by_io_itemvar13 <- V_diff_by_io_itemvar13 + labs(x = "", y = "")
-V_diff_by_io_itemvar23 <- V_diff_by_io_itemvar23 + labs(x = "", y = "")
+V_diff_by_io_itemvar12 <- V_diff_by_io_itemvar12 + labs(x = "", y = "Δ Rank (Model 2 - Model 1)")
+V_diff_by_io_itemvar13 <- V_diff_by_io_itemvar13 + labs(x = "", y = "Δ Rank (Model 3 - Model 1)")
+V_diff_by_io_itemvar23 <- V_diff_by_io_itemvar23 + labs(x = "", y = "Δ Rank (Model 3 - Model 2)")
 
 V_diff_by_io_itemvar <- grid.arrange(V_diff_by_io_itemvar12, V_diff_by_io_itemvar13, V_diff_by_io_itemvar23, 
                                      ncol = 3,
-                                     left = textGrob("Difference in Variance Ranks", rot = 90,
-                                                     gp = gpar(fontsize = 12, fontfamily = "serif"),
-                                                     vjust = 2, hjust = 0.5),
                                      bottom = textGrob("Item-Level SD of Omission Rates",
                                                        gp = gpar(fontsize = 12, fontfamily = "serif"),
                                                        vjust = -1, hjust = 0))
@@ -279,7 +285,7 @@ V_diff_by_io_personvar12 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "Person-Level SD of Omission Rates", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 2 - Model 1)") +
   scale_x_continuous(breaks = seq(0, 4, by = 1)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
                      limits = c(-4, 4)) +
@@ -296,7 +302,7 @@ V_diff_by_io_personvar13 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "Person-Level SD of Omission Rates", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 3 - Model 1)") +
   scale_x_continuous(breaks = seq(0, 4, by = 1)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
                      limits = c(-4, 4)) +
@@ -313,7 +319,7 @@ V_diff_by_io_personvar23 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "Person-Level SD of Omission Rates", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 3 - Model 2)") +
   scale_x_continuous(breaks = seq(0, 4, by = 1)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
                      limits = c(-4, 4)) +
@@ -326,15 +332,12 @@ V_diff_by_io_personvar23 <- ggplot(data = omission_variance,
 
 # put them next to each other
 
-V_diff_by_io_personvar12 <- V_diff_by_io_personvar12 + labs(x = "", y = "")
-V_diff_by_io_personvar13 <- V_diff_by_io_personvar13 + labs(x = "", y = "")
-V_diff_by_io_personvar23 <- V_diff_by_io_personvar23 + labs(x = "", y = "")
+V_diff_by_io_personvar12 <- V_diff_by_io_personvar12 + labs(x = "", y = "Δ Rank (Model 2 - Model 1)")
+V_diff_by_io_personvar13 <- V_diff_by_io_personvar13 + labs(x = "", y = "Δ Rank (Model 3 - Model 1)")
+V_diff_by_io_personvar23 <- V_diff_by_io_personvar23 + labs(x = "", y = "Δ Rank (Model 3 - Model 2)")
 
 V_diff_by_io_personvar <- grid.arrange(V_diff_by_io_personvar12, V_diff_by_io_personvar13, V_diff_by_io_personvar23, 
                                        ncol = 3,
-                                       left = textGrob("Difference in Variance Ranks", rot = 90,
-                                                       gp = gpar(fontsize = 12, fontfamily = "serif"),
-                                                       vjust = 2, hjust = 0.5),
                                        bottom = textGrob("Person-Level SD of Omission Rates",
                                                          gp = gpar(fontsize = 12, fontfamily = "serif"),
                                                          vjust = -1, hjust = 0))
@@ -358,7 +361,7 @@ V_diff_by_completeness_MC_M12 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "MC Completeness (%)", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 2 - Model 1)") +
   scale_x_continuous(breaks = seq(75, 100, by = 5),
                      limits = c(75, 100)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
@@ -376,7 +379,7 @@ V_diff_by_completeness_MC_M13 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "MC Completeness (%)", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 3 - Model 1)") +
   scale_x_continuous(breaks = seq(75, 100, by = 5),
                      limits = c(75, 100)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
@@ -394,7 +397,7 @@ V_diff_by_completeness_MC_M23 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "MC Completeness (%)", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 3 - Model 2)") +
   scale_x_continuous(breaks = seq(75, 100, by = 5),
                      limits = c(75, 100)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
@@ -408,15 +411,12 @@ V_diff_by_completeness_MC_M23 <- ggplot(data = omission_variance,
 
 # put them next to each other
 
-V_diff_by_completeness_MC_M12 <- V_diff_by_completeness_MC_M12 + labs(x = "", y = "")
-V_diff_by_completeness_MC_M13 <- V_diff_by_completeness_MC_M13 + labs(x = "", y = "")
-V_diff_by_completeness_MC_M23 <- V_diff_by_completeness_MC_M23 + labs(x = "", y = "")
+V_diff_by_completeness_MC_M12 <- V_diff_by_completeness_MC_M12 + labs(x = "", y = "Δ Rank (Model 2 - Model 1)")
+V_diff_by_completeness_MC_M13 <- V_diff_by_completeness_MC_M13 + labs(x = "", y = "Δ Rank (Model 3 - Model 1)")
+V_diff_by_completeness_MC_M23 <- V_diff_by_completeness_MC_M23 + labs(x = "", y = "Δ Rank (Model 3 - Model 2)")
 
 V_diff_by_completeness_MC_M <- grid.arrange(V_diff_by_completeness_MC_M12, V_diff_by_completeness_MC_M13, V_diff_by_completeness_MC_M23, 
                                             ncol = 3,
-                                            left = textGrob("Difference in Variance Ranks", rot = 90,
-                                                            gp = gpar(fontsize = 12, fontfamily = "serif"),
-                                                            vjust = 2, hjust = 0.5),
                                             bottom = textGrob("MC Completeness (%)",
                                                               gp = gpar(fontsize = 12, fontfamily = "serif"),
                                                               vjust = -1, hjust = 0))
@@ -433,7 +433,7 @@ V_diff_by_completeness_MC_SD12 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "SD of MC Completeness", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 2 - Model 1)") +
   scale_x_continuous(breaks = seq(10, 40, by = 5),
                      limits = c(10, 40)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
@@ -451,7 +451,7 @@ V_diff_by_completeness_MC_SD13 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "SD of MC Completeness", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 3 - Model 1)") +
   scale_x_continuous(breaks = seq(10, 40, by = 5),
                      limits = c(10, 40)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
@@ -469,7 +469,7 @@ V_diff_by_completeness_MC_SD23 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "SD of MC Completeness", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 3 - Model 2)") +
   scale_x_continuous(breaks = seq(10, 40, by = 5),
                      limits = c(10, 40)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
@@ -483,15 +483,12 @@ V_diff_by_completeness_MC_SD23 <- ggplot(data = omission_variance,
 
 # put them next to each other
 
-V_diff_by_completeness_MC_SD12 <- V_diff_by_completeness_MC_SD12 + labs(x = "", y = "")
-V_diff_by_completeness_MC_SD13 <- V_diff_by_completeness_MC_SD13 + labs(x = "", y = "")
-V_diff_by_completeness_MC_SD23 <- V_diff_by_completeness_MC_SD23 + labs(x = "", y = "")
+V_diff_by_completeness_MC_SD12 <- V_diff_by_completeness_MC_SD12 + labs(x = "", y = "Δ Rank (Model 2 - Model 1)")
+V_diff_by_completeness_MC_SD13 <- V_diff_by_completeness_MC_SD13 + labs(x = "", y = "Δ Rank (Model 3 - Model 1)")
+V_diff_by_completeness_MC_SD23 <- V_diff_by_completeness_MC_SD23 + labs(x = "", y = "Δ Rank (Model 3 - Model 2)")
 
 V_diff_by_completeness_MC_SD <- grid.arrange(V_diff_by_completeness_MC_SD12, V_diff_by_completeness_MC_SD13, V_diff_by_completeness_MC_SD23, 
                                              ncol = 3,
-                                             left = textGrob("Difference in Variance Ranks", rot = 90,
-                                                             gp = gpar(fontsize = 12, fontfamily = "serif"),
-                                                             vjust = 2, hjust = 0.5),
                                              bottom = textGrob("SD of MC Completeness",
                                                                gp = gpar(fontsize = 12, fontfamily = "serif"),
                                                                vjust = -1, hjust = 0))
@@ -508,7 +505,7 @@ V_diff_by_completeness_CR_M12 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "CR Completeness (%)", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 2 - Model 1)") +
   scale_x_continuous(breaks = seq(25, 100, by = 10),
                      limits = c(25, 100)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
@@ -526,7 +523,7 @@ V_diff_by_completeness_CR_M13 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "CR Completeness (%)", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 3 - Model 1)") +
   scale_x_continuous(breaks = seq(25, 100, by = 10),
                      limits = c(25, 100)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
@@ -544,7 +541,7 @@ V_diff_by_completeness_CR_M23 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "CR Completeness (%)", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 3 - Model 2)") +
   scale_x_continuous(breaks = seq(25, 100, by = 10),
                      limits = c(25, 100)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
@@ -558,15 +555,12 @@ V_diff_by_completeness_CR_M23 <- ggplot(data = omission_variance,
 
 # put them next to each other
 
-V_diff_by_completeness_CR_M12 <- V_diff_by_completeness_CR_M12 + labs(x = "", y = "")
-V_diff_by_completeness_CR_M13 <- V_diff_by_completeness_CR_M13 + labs(x = "", y = "")
-V_diff_by_completeness_CR_M23 <- V_diff_by_completeness_CR_M23 + labs(x = "", y = "")
+V_diff_by_completeness_CR_M12 <- V_diff_by_completeness_CR_M12 + labs(x = "", y = "Δ Rank (Model 2 - Model 1)")
+V_diff_by_completeness_CR_M13 <- V_diff_by_completeness_CR_M13 + labs(x = "", y = "Δ Rank (Model 3 - Model 1)")
+V_diff_by_completeness_CR_M23 <- V_diff_by_completeness_CR_M23 + labs(x = "", y = "Δ Rank (Model 3 - Model 2)")
 
 V_diff_by_completeness_CR_M <- grid.arrange(V_diff_by_completeness_CR_M12, V_diff_by_completeness_CR_M13, V_diff_by_completeness_CR_M23, 
                                             ncol = 3,
-                                            left = textGrob("Difference in Variance Ranks", rot = 90,
-                                                            gp = gpar(fontsize = 12, fontfamily = "serif"),
-                                                            vjust = 2, hjust = 0.5),
                                             bottom = textGrob("CR Completeness (%)",
                                                               gp = gpar(fontsize = 12, fontfamily = "serif"),
                                                               vjust = -1, hjust = 0))
@@ -583,7 +577,7 @@ V_diff_by_completeness_CR_SD12 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "SD of CR Completeness", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 2 - Model 1)") +
   scale_x_continuous(breaks = seq(25, 50, by = 5),
                      limits = c(25, 50)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
@@ -601,7 +595,7 @@ V_diff_by_completeness_CR_SD13 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "SD of CR Completeness", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 3 - Model 1)") +
   scale_x_continuous(breaks = seq(25, 50, by = 5),
                      limits = c(25, 50)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
@@ -619,7 +613,7 @@ V_diff_by_completeness_CR_SD23 <- ggplot(data = omission_variance,
   geom_point(alpha = 0.7, size = 2) +
   geom_text_repel(size = 3, family = "serif") +
   labs(x = "SD of CR Completeness", 
-       y = "Difference in Variance Ranks") +
+       y = "Δ Rank (Model 3 - Model 2)") +
   scale_x_continuous(breaks = seq(25, 50, by = 5),
                      limits = c(25, 50)) +
   scale_y_continuous(breaks = seq(-4, 4, by = 1),
@@ -633,15 +627,12 @@ V_diff_by_completeness_CR_SD23 <- ggplot(data = omission_variance,
 
 # put them next to each other
 
-V_diff_by_completeness_CR_SD12 <- V_diff_by_completeness_CR_SD12 + labs(x = "", y = "")
-V_diff_by_completeness_CR_SD13 <- V_diff_by_completeness_CR_SD13 + labs(x = "", y = "")
-V_diff_by_completeness_CR_SD23 <- V_diff_by_completeness_CR_SD23 + labs(x = "", y = "")
+V_diff_by_completeness_CR_SD12 <- V_diff_by_completeness_CR_SD12 + labs(x = "", y = "Δ Rank (Model 1 - Model 1)")
+V_diff_by_completeness_CR_SD13 <- V_diff_by_completeness_CR_SD13 + labs(x = "", y = "Δ Rank (Model 3 - Model 1)")
+V_diff_by_completeness_CR_SD23 <- V_diff_by_completeness_CR_SD23 + labs(x = "", y = "Δ Rank (Model 3 - Model 2)")
 
 V_diff_by_completeness_CR_SD <- grid.arrange(V_diff_by_completeness_CR_SD12, V_diff_by_completeness_CR_SD13, V_diff_by_completeness_CR_SD23, 
                                              ncol = 3,
-                                             left = textGrob("Difference in Variance Ranks", rot = 90,
-                                                             gp = gpar(fontsize = 12, fontfamily = "serif"),
-                                                             vjust = 2, hjust = 0.5),
                                              bottom = textGrob("SD of CR Completeness",
                                                                gp = gpar(fontsize = 12, fontfamily = "serif"),
                                                                vjust = -1, hjust = 0))
