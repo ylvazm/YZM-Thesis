@@ -131,6 +131,13 @@ saveRDS(m3_info, file = paste0(getwd(), "/YZM-Thesis/Output/m3_info.rds"))
 # Checkpoint
 m3_info <- readRDS(file = paste0(getwd(), "/YZM-Thesis/Output/m3_info.rds"))
 
+# IIC summary across items
+
+df <- data.frame(item = rownames(m3_info$info_curves_item),
+                 maxInfo = apply(m3_info$info_curves_item, 1, max))
+summary(df)
+
+
 # Create data.frame for the subsequent plot
 iic_df <- data.frame(item = c(rep("CR Completeness", 100), rep("MC Completeness", 100)),
                      theta = rep(m3_info$theta, 2),
