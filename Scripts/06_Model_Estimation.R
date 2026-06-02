@@ -1,6 +1,6 @@
 #' 
 #' ---
-#' title: "Estimation of Model 1 - Treating Omissions as Not Administered"
+#' title: "Estimation of IRT Models"
 #' author: "Ylva Matejko"
 #' date: "Apr 19, 2026"
 #' ---
@@ -41,7 +41,7 @@ model1b <- tam.mml.2pl(
 # Save results
 saveRDS(model1b, file = paste0(getwd(), "/YZM-Thesis/Models/model1b.rds"))
 
-# Exctract item parameters
+# Extract item parameters
 xsi_fixed <- model1b$xsi.fixed.estimated # locations
 B_fixed <- model1b$B.fixed.estimated #difficulties
 
